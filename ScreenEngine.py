@@ -46,6 +46,7 @@ class GameSurface(ScreenHandle):
         super().__init__(*args, **kwargs)
         self.min_x = 0
         self.min_y = 0
+        self.fill(colors["wooden"])
 
     def connect_engine(self, engine):
         self.game_engine = engine
@@ -175,10 +176,10 @@ class InfoWindow(ScreenHandle):
         self.fill(colors["wooden"])
         size = self.get_size()
 
-        font = pygame.font.SysFont("comicsansms", 25)
+        font = pygame.font.SysFont("comicsansms", 20)
         for i, text in enumerate(self.data):
-            canvas.blit(font.render(text, True, colors["black"]),
-                        (1100, 150 + 18 * i))
+            self.blit(font.render(text, True, colors["black"]),
+                      (5, 20 + 18 * i))
         super().draw(canvas)
 
     def connect_engine(self, engine):
