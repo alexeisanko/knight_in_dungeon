@@ -351,7 +351,7 @@ def service_init(sprite_size, full=True):
     global floor2
     global floor3
 
-    # Загружает изображения препятский
+    # Загружает изображения препятствий
     wall[0] = create_sprite(os.path.join("texture", "wall.png"), sprite_size)
     floor1[0] = create_sprite(os.path.join("texture", "Ground_1.png"), sprite_size)
     floor2[0] = create_sprite(os.path.join("texture", "Ground_2.png"), sprite_size)

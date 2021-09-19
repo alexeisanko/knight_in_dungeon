@@ -44,10 +44,11 @@ class GameSurface(ScreenHandle):
         self.game_engine = engine
         return super().connect_engine(engine)
 
-    def draw_hero(self, size, canvas):
-        # self.game_engine.hero.draw(size)
-        canvas.blit(self.game_engine.hero.draw(size), (self.game_engine.hero.position[0] * size,
-                                                       self.game_engine.hero.position[1] * size))
+    def draw_hero(self, canvas):
+        canvas.blit(self.game_engine.hero.draw(self.game_engine.sprite_size),
+                    (self.game_engine.hero.position[0] * self.game_engine.sprite_size,
+                     self.game_engine.hero.position[1] * self.game_engine.sprite_size))
+
     def draw_map(self, canvas):
         min_x = 0
         min_y = 0
@@ -59,20 +60,17 @@ class GameSurface(ScreenHandle):
         else:
             self.fill(colors["white"])
 
-    def draw_object(self, _object, size, canvas):
-
+    def draw_object(self, _object, canvas):
         min_x = 0
         min_y = 0
-        canvas.blit(_object.sprite[0], ((_object.position[0] - min_x) * size,
-                                        (_object.position[1] - min_y) * size))
+        canvas.blit(_object.sprite[0], ((_object.position[0] - min_x) * self.game_engine.sprite_size,
+                                        (_object.position[1] - min_y) * self.game_engine.sprite_size))
 
     def draw(self, canvas):
-        size = self.game_engine.sprite_size
-
         self.draw_map(canvas)
         for obj in self.game_engine.objects:
-            self.draw_object(obj, size, canvas)
-        self.draw_hero(size, canvas)
+            self.draw_object(obj, canvas)
+        self.draw_hero(canvas)
         self.successor.draw(canvas)
 
 

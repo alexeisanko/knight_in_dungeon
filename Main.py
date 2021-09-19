@@ -1,11 +1,11 @@
 import pygame
 import os
 import Objects
-import ScreenEngine
+import ScreenEngine as SE
 import Logic
 import Service
 
-SCREEN_DIM = (1500, 1200)
+SCREEN_DIM = (800, 600)
 
 pygame.init()
 gameDisplay = pygame.display.set_mode(SCREEN_DIM)
@@ -34,15 +34,14 @@ def create_game(sprite_size, is_new):
         engine = Logic.GameEngine()
         Service.service_init(sprite_size)
         Service.reload_game(engine, hero)
-        drawer = ScreenEngine.GameSurface((1500, 1200), pygame.SRCALPHA, (0, 480),
-                                          ScreenEngine.ProgressBar((640, 120), (1300, 0),
-                                                                   ScreenEngine.InfoWindow((160, 600), (50, 50),
-                                                                                           ScreenEngine.HelpWindow(
-                                                                                               (700, 500),
-                                                                                               pygame.SRCALPHA, (0, 0),
-                                                                                               ScreenEngine.ScreenHandle(
-                                                                                                   (0, 0))
-                                                                                               ))))
+        drawer = SE.GameSurface((640, 480), pygame.SRCALPHA, (0, 480),
+                                SE.ProgressBar((640, 120), (640, 0),
+                                               SE.InfoWindow((160, 600), (50, 50),
+                                                             SE.HelpWindow((700, 500), pygame.SRCALPHA, (0, 0),
+                                                                           SE.ScreenHandle(
+                                                                               (0, 0))
+                                                                           ))))
+
     else:
         engine.sprite_size = sprite_size
         hero.sprite = Service.create_sprite(
@@ -56,7 +55,7 @@ def create_game(sprite_size, is_new):
     iteration = 0
 
 
-size = 25
+size = 40
 create_game(size, True)
 
 while engine.working:
