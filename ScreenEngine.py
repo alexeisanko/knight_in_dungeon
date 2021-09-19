@@ -51,31 +51,32 @@ class GameSurface(ScreenHandle):
         self.game_engine = engine
         return super().connect_engine(engine)
 
-    def draw_hero(self, canvas):
+    def draw_hero(self):
         position = ((self.game_engine.hero.position[0] - self.min_x) * self.game_engine.sprite_size,
                     (self.game_engine.hero.position[1] - self.min_y) * self.game_engine.sprite_size)
-        canvas.blit(self.game_engine.hero.draw(self.game_engine.sprite_size), position)
+        self.blit(self.game_engine.hero.draw(self.game_engine.sprite_size), position)
 
-    def draw_map(self, canvas):
+    def draw_map(self):
         if self.game_engine.map:
             for i in range(len(self.game_engine.map[0]) - self.min_x):
                 for j in range(len(self.game_engine.map) - self.min_y):
-                    canvas.blit(self.game_engine.map[self.min_y + j][self.min_x + i][0],
+                    self.blit(self.game_engine.map[self.min_y + j][self.min_x + i][0],
                                 (i * self.game_engine.sprite_size,
                                  j * self.game_engine.sprite_size))
         else:
             self.fill(colors["white"])
 
-    def draw_object(self, _object, canvas):
-        canvas.blit(_object.sprite[0], ((_object.position[0] - self.min_x) * self.game_engine.sprite_size,
+    def draw_object(self, _object):
+        self.blit(_object.sprite[0], ((_object.position[0] - self.min_x) * self.game_engine.sprite_size,
                                         (_object.position[1] - self.min_y) * self.game_engine.sprite_size))
 
     def draw(self, canvas):
         self.update_minxy()
-        self.draw_map(canvas)
+        self.draw_map()
         for obj in self.game_engine.objects:
-            self.draw_object(obj, canvas)
-        self.draw_hero(canvas)
+            self.draw_object(obj)
+        self.draw_hero()
+        canvas.blit(self.successor, self.next_coord)
         self.successor.draw(canvas)
 
     def update_minxy(self):
@@ -111,54 +112,53 @@ class ProgressBar(ScreenHandle):
         pygame.draw.rect(self, colors["black"], (50, 70, 200, 30), 2)
 
         pygame.draw.rect(self, colors[
-            "red"], (50, 30, 200 * self.engine.hero.hp / self.engine.hero.max_hp, 30))
+                         "red"], (50, 30, 200 * self.engine.hero.hp / self.engine.hero.max_hp, 30))
         pygame.draw.rect(self, colors["green"], (50, 70,
-                                                 200 * self.engine.hero.exp / (
-                                                         100 * (2 ** (self.engine.hero.level - 1))), 30))
+                                                 200 * self.engine.hero.exp / (100 * (2**(self.engine.hero.level - 1))), 30))
 
         font = pygame.font.SysFont("comicsansms", 20)
-        canvas.blit(font.render(f'Hero at {self.engine.hero.position}', True, colors["black"]),
-                    (1150, 0))
+        self.blit(font.render(f'Hero at {self.engine.hero.position}', True, colors["white"]),
+                  (250, 0))
 
-        canvas.blit(font.render(f'{self.engine.level} floor', True, colors["black"]),
-                    (1050, 0))
+        self.blit(font.render(f'{self.engine.level} floor', True, colors["black"]),
+                  (10, 0))
 
-        canvas.blit(font.render(f'HP', True, colors["black"]),
-                    (1050, 30))
-        canvas.blit(font.render(f'Exp', True, colors["black"]),
-                    (1050, 70))
+        self.blit(font.render(f'HP', True, colors["black"]),
+                  (10, 30))
+        self.blit(font.render(f'Exp', True, colors["black"]),
+                  (10, 70))
 
-        canvas.blit(font.render(f'{self.engine.hero.hp}/{self.engine.hero.max_hp}', True, colors["black"]),
-                    (1080, 30))
-        canvas.blit(
-            font.render(f'{self.engine.hero.exp}/{(100 * (2 ** (self.engine.hero.level - 1)))}', True, colors["black"]),
-            (1080, 70))
+        self.blit(font.render(f'{self.engine.hero.hp}/{self.engine.hero.max_hp}', True, colors["black"]),
+                  (60, 30))
+        self.blit(font.render(f'{self.engine.hero.exp}/{(100*(2**(self.engine.hero.level-1)))}', True, colors["black"]),
+                  (60, 70))
 
-        canvas.blit(font.render(f'Level', True, colors["black"]),
-                    (1150, 30))
-        canvas.blit(font.render(f'Gold', True, colors["black"]),
-                    (1150, 70))
+        self.blit(font.render(f'Level', True, colors["black"]),
+                  (300, 30))
+        self.blit(font.render(f'Gold', True, colors["black"]),
+                  (300, 70))
 
-        canvas.blit(font.render(f'{self.engine.hero.level}', True, colors["black"]),
-                    (1190, 30))
-        canvas.blit(font.render(f'{self.engine.hero.gold}', True, colors["black"]),
-                    (1190, 70))
+        self.blit(font.render(f'{self.engine.hero.level}', True, colors["black"]),
+                  (360, 30))
+        self.blit(font.render(f'{self.engine.hero.gold}', True, colors["black"]),
+                  (360, 70))
 
-        canvas.blit(font.render(f'Str', True, colors["black"]),
-                    (1250, 30))
-        canvas.blit(font.render(f'Luck', True, colors["black"]),
-                    (1250, 70))
+        self.blit(font.render(f'Str', True, colors["black"]),
+                  (420, 30))
+        self.blit(font.render(f'Luck', True, colors["black"]),
+                  (420, 70))
 
-        canvas.blit(font.render(f'{self.engine.hero.stats["strength"]}', True, colors["black"]),
-                    (1290, 30))
-        canvas.blit(font.render(f'{self.engine.hero.stats["luck"]}', True, colors["black"]),
-                    (1290, 70))
+        self.blit(font.render(f'{self.engine.hero.stats["strength"]}', True, colors["black"]),
+                  (480, 30))
+        self.blit(font.render(f'{self.engine.hero.stats["luck"]}', True, colors["black"]),
+                  (480, 70))
 
-        canvas.blit(font.render(f'SCORE', True, colors["black"]),
-                    (1350, 30))
-        canvas.blit(font.render(f'{self.engine.score:.4f}', True, colors["black"]),
-                    (1350, 70))
+        self.blit(font.render(f'SCORE', True, colors["black"]),
+                  (550, 30))
+        self.blit(font.render(f'{self.engine.score:.4f}', True, colors["black"]),
+                  (550, 70))
 
+        canvas.blit(self.successor, self.next_coord)
         self.successor.draw(canvas)
     # draw next surface in chain
 
@@ -182,6 +182,7 @@ class InfoWindow(ScreenHandle):
         for i, text in enumerate(self.data):
             canvas.blit(font.render(text, True, colors["black"]),
                         (1100, 150 + 18 * i))
+        canvas.blit(self.successor, self.next_coord)
         self.successor.draw(canvas)
 
     def connect_engine(self, engine):
