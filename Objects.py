@@ -80,7 +80,7 @@ class Enemy(Creature, Interactive):
 
     def interact(self, engine, hero):
 
-        while self.hp <= 0 or engine.hero.hp <= 0:
+        while self.hp >= 0 and engine.hero.hp >= 0:
             self.hp -= engine.hero.stats['strength']
             engine.hero.hp -= self.stats['strength']
         if engine.hero.hp > 0:

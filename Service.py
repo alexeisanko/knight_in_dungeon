@@ -38,10 +38,10 @@ def restore_hp(engine, hero):
 
 
 def apply_blessing(engine, hero):
-    if hero.gold >= int(20 * 1.5 ** engine.level) - 2 * hero.stats["intelligence"]:
+    cost = int(20 * 1.5 ** engine.level) - 2 * hero.stats["intelligence"]
+    if hero.gold >= cost:
         engine.score += 0.2
-        hero.gold -= int(20 * 1.5 ** engine.level) - \
-                     2 * hero.stats["intelligence"]
+        hero.gold -= cost
         if random.randint(0, 1) == 0:
             engine.hero = Objects.Blessing(hero)
             engine.notify("Blessing applied")
@@ -50,25 +50,30 @@ def apply_blessing(engine, hero):
             engine.notify("Berserk applied")
     else:
         engine.score -= 0.1
+        engine.notify(f'For blessing you need still {cost - hero.gold} gold')
 
 
 def remove_effect(engine, hero):
-    if hero.gold >= int(10 * 1.5 ** engine.level) - 2 * hero.stats["intelligence"] and "base" in dir(hero):
-        hero.gold -= int(10 * 1.5 ** engine.level) - \
-                     2 * hero.stats["intelligence"]
+    cost = int(10 * 1.5 ** engine.level) - 2 * hero.stats["intelligence"]
+    if hero.gold >=cost  and "base" in dir(hero):
+        hero.gold -= cost
         engine.hero = hero.base
         engine.hero.calc_max_HP()
         engine.notify("Effect removed")
+    elif "base" not in dir(hero):
+        engine.notify("You haven't effect")
+    else:
+        engine.notify("f'For remove effect you need still {cost - hero.gold} gold'")
 
 
 def add_gold(engine, hero):
-    if random.randint(1, 10) == 1:
+    if random.randint(1, hero.stats['luck']) == 1:
         engine.score -= 0.05
         engine.hero = Objects.Weakness(hero)
         engine.notify("You were cursed")
     else:
         engine.score += 0.1
-        gold = int(random.randint(10, 1000) * (1.1 ** (engine.hero.level - 1)))
+        gold = int(random.randint(10, 10 * hero.stats['luck']) * (1.1 ** (engine.hero.level - 1)))
         hero.gold += gold
         engine.notify(f"{gold} gold added")
 

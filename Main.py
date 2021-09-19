@@ -5,7 +5,7 @@ import ScreenEngine as SE
 import Logic
 import Service
 
-SCREEN_DIM = (800, 600)
+SCREEN_DIM = (900, 600)
 
 pygame.init()
 gameDisplay = pygame.display.set_mode(SCREEN_DIM)
@@ -35,8 +35,8 @@ def create_game(sprite_size, is_new):
         Service.service_init(sprite_size)
         Service.reload_game(engine, hero)
         drawer = SE.GameSurface((600, 480), pygame.SRCALPHA, (0, 480),
-                                SE.ProgressBar((800, 120), (600, 0),
-                                               SE.InfoWindow((200, 480), (50, 50),
+                                SE.ProgressBar((900, 120), (600, 0),
+                                               SE.InfoWindow((300, 480), (50, 50),
                                                              SE.HelpWindow((700, 500), pygame.SRCALPHA, (0, 0),
                                                                            SE.ScreenHandle(
                                                                                (0, 0))

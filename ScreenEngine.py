@@ -165,7 +165,7 @@ class InfoWindow(ScreenHandle):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.len = 30
+        self.len = 25
         clear = []
         self.data = collections.deque(clear, maxlen=self.len)
 
@@ -176,7 +176,7 @@ class InfoWindow(ScreenHandle):
         self.fill(colors["wooden"])
         size = self.get_size()
 
-        font = pygame.font.SysFont("comicsansms", 20)
+        font = pygame.font.SysFont("comicsansms", 17)
         for i, text in enumerate(self.data):
             self.blit(font.render(text, True, colors["black"]),
                       (5, 20 + 18 * i))
