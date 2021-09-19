@@ -243,25 +243,46 @@ class SpecialMap(MapFactory):
 
         def get_objects(self, _map):
 
-            prop = object_list_prob['objects']['stairs']
-            for i in range(random.randint(prop['min-count'], prop['max-count'])):
-                coord = (random.randint(1, 39), random.randint(1, 39))  # случайная координата
-                intersect = True  # intersect - пересечение
-                while intersect:
-                    intersect = False
-                    if _map[coord[0]][coord[1]] == wall:
-                        intersect = True
-                        coord = (random.randint(1, 39),
-                                 random.randint(1, 39))
-                        continue
-                    for obj in self.objects:
-                        if coord == obj.position or coord == (1, 1):
+            for obj_name in object_list_prob['objects']:
+                prop = object_list_prob['objects'][obj_name]
+                for i in range(random.randint(prop['min-count'], prop['max-count'])):
+                    coord = (random.randint(1, 39), random.randint(1, 39))
+                    intersect = True
+                    while intersect:
+                        intersect = False
+                        if _map[coord[1]][coord[0]] == wall:
                             intersect = True
                             coord = (random.randint(1, 39),
                                      random.randint(1, 39))
+                            continue
+                        for obj in self.objects:
+                            if coord == obj.position or coord == (1, 1):
+                                intersect = True
+                                coord = (random.randint(1, 39),
+                                         random.randint(1, 39))
 
-                self.objects.append(Objects.Ally(
-                    prop['sprite'], prop['action'], coord))
+                    self.objects.append(Objects.Ally(
+                        prop['sprite'], prop['action'], coord))
+
+            for obj_name in object_list_prob['ally']:
+                prop = object_list_prob['ally'][obj_name]
+                for i in range(random.randint(prop['min-count'], prop['max-count'])):
+                    coord = (random.randint(1, 39), random.randint(1, 39))
+                    intersect = True
+                    while intersect:
+                        intersect = False
+                        if _map[coord[1]][coord[0]] == wall:
+                            intersect = True
+                            coord = (random.randint(1, 39),
+                                     random.randint(1, 39))
+                            continue
+                        for obj in self.objects:
+                            if coord == obj.position or coord == (1, 1):
+                                intersect = True
+                                coord = (random.randint(1, 39),
+                                         random.randint(1, 39))
+                    self.objects.append(Objects.Ally(
+                        prop['sprite'], prop['action'], coord))
 
             for obj_name in object_list_prob['enemies']:
                 prop = object_list_prob['enemies'][obj_name]
@@ -315,25 +336,46 @@ class EmptyMap(MapFactory):
             self.config = {}
 
         def get_objects(self, _map):
-            prop = object_list_prob['objects']['stairs']
-            for i in range(random.randint(prop['min-count'], prop['max-count'])):
-                coord = (random.randint(1, 39), random.randint(1, 39))  # случайная координата
-                intersect = True  # intersect - пересечение
-                while intersect:
-                    intersect = False
-                    if _map[coord[0]][coord[1]] == wall:
-                        intersect = True
-                        coord = (random.randint(1, 39),
-                                 random.randint(1, 39))
-                        continue
-                    for obj in self.objects:
-                        if coord == obj.position or coord == (1, 1):
+            for obj_name in object_list_prob['objects']:
+                prop = object_list_prob['objects'][obj_name]
+                for i in range(random.randint(prop['min-count'], prop['max-count'])):
+                    coord = (random.randint(1, 39), random.randint(1, 39))
+                    intersect = True
+                    while intersect:
+                        intersect = False
+                        if _map[coord[1]][coord[0]] == wall:
                             intersect = True
                             coord = (random.randint(1, 39),
                                      random.randint(1, 39))
+                            continue
+                        for obj in self.objects:
+                            if coord == obj.position or coord == (1, 1):
+                                intersect = True
+                                coord = (random.randint(1, 39),
+                                         random.randint(1, 39))
 
-                self.objects.append(Objects.Ally(
-                    prop['sprite'], prop['action'], coord))
+                    self.objects.append(Objects.Ally(
+                        prop['sprite'], prop['action'], coord))
+
+            for obj_name in object_list_prob['ally']:
+                prop = object_list_prob['ally'][obj_name]
+                for i in range(random.randint(prop['min-count'], prop['max-count'])):
+                    coord = (random.randint(1, 39), random.randint(1, 39))
+                    intersect = True
+                    while intersect:
+                        intersect = False
+                        if _map[coord[1]][coord[0]] == wall:
+                            intersect = True
+                            coord = (random.randint(1, 39),
+                                     random.randint(1, 39))
+                            continue
+                        for obj in self.objects:
+                            if coord == obj.position or coord == (1, 1):
+                                intersect = True
+                                coord = (random.randint(1, 39),
+                                         random.randint(1, 39))
+                    self.objects.append(Objects.Ally(
+                        prop['sprite'], prop['action'], coord))
             return self.objects
 
 
