@@ -76,8 +76,7 @@ class GameSurface(ScreenHandle):
         for obj in self.game_engine.objects:
             self.draw_object(obj)
         self.draw_hero()
-        canvas.blit(self.successor, self.next_coord)
-        self.successor.draw(canvas)
+        super().draw(canvas)
 
     def update_minxy(self):
         min_xy = [0, 0]
@@ -117,7 +116,7 @@ class ProgressBar(ScreenHandle):
                                                  200 * self.engine.hero.exp / (100 * (2**(self.engine.hero.level - 1))), 30))
 
         font = pygame.font.SysFont("comicsansms", 20)
-        self.blit(font.render(f'Hero at {self.engine.hero.position}', True, colors["white"]),
+        self.blit(font.render(f'Hero at {self.engine.hero.position}', True, colors["black"]),
                   (250, 0))
 
         self.blit(font.render(f'{self.engine.level} floor', True, colors["black"]),
@@ -158,9 +157,7 @@ class ProgressBar(ScreenHandle):
         self.blit(font.render(f'{self.engine.score:.4f}', True, colors["black"]),
                   (550, 70))
 
-        canvas.blit(self.successor, self.next_coord)
-        self.successor.draw(canvas)
-    # draw next surface in chain
+        super().draw(canvas)
 
 
 class InfoWindow(ScreenHandle):
@@ -182,8 +179,7 @@ class InfoWindow(ScreenHandle):
         for i, text in enumerate(self.data):
             canvas.blit(font.render(text, True, colors["black"]),
                         (1100, 150 + 18 * i))
-        canvas.blit(self.successor, self.next_coord)
-        self.successor.draw(canvas)
+        super().draw(canvas)
 
     def connect_engine(self, engine):
         self.engine = engine
@@ -226,4 +222,4 @@ class HelpWindow(ScreenHandle):
                             (50, 50 + 30 * i))
                 canvas.blit(font2.render(text[1], True, (128, 128, 255)),
                             (150, 50 + 30 * i))
-        self.successor.draw(canvas)
+        super().draw(canvas)
