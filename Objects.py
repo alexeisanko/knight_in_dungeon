@@ -79,11 +79,16 @@ class Enemy(Creature, Interactive):
         super().__init__(icon, stats, position)
 
     def interact(self, engine, hero):
-        engine.hero.exp += self.experience
-        engine.hero.hp -= self.hp
-        engine.score += self.hp / 10
-        engine.hero.level_up(engine)
-        if engine.hero.hp <= 0:
+
+        while self.hp <= 0 or engine.hero.hp <= 0:
+            self.hp -= engine.hero.stats['strength']
+            engine.hero.hp -= self.stats['strength']
+        if engine.hero.hp > 0:
+            engine.hero.exp += self.experience
+            engine.score += self.hp / 10
+            engine.hero.level_up(engine)
+            engine.notify(f'You killed Enemy')
+        else:
             engine.notify('You Died!')
 
 
