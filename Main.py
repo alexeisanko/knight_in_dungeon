@@ -35,12 +35,13 @@ def create_game(sprite_size, is_new):
         Service.service_init(sprite_size)
         Service.reload_game(engine, hero)
         drawer = SE.GameSurface((600, 480), pygame.SRCALPHA, (0, 480),
-                                SE.ProgressBar((900, 120), (600, 0),
-                                               SE.InfoWindow((300, 480), (50, 50),
-                                                             SE.HelpWindow((700, 500), pygame.SRCALPHA, (0, 0),
+                                SE.ProgressBar((700, 120), (600, 0),
+                                               SE.InfoWindow((300, 400), (50, 50),
+                                                             SE.HelpWindow((700, 500), pygame.SRCALPHA, (650, 400),
+                                                                           SE.MiniMap((250, 200), (0, 0),
                                                                            SE.ScreenHandle(
                                                                                (0, 0))
-                                                                           ))))
+                                                                           )))))
 
     else:
         engine.sprite_size = sprite_size

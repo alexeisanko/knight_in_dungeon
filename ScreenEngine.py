@@ -62,14 +62,14 @@ class GameSurface(ScreenHandle):
             for i in range(len(self.game_engine.map[0]) - self.min_x):
                 for j in range(len(self.game_engine.map) - self.min_y):
                     self.blit(self.game_engine.map[self.min_y + j][self.min_x + i][0],
-                                (i * self.game_engine.sprite_size,
-                                 j * self.game_engine.sprite_size))
+                              (i * self.game_engine.sprite_size,
+                               j * self.game_engine.sprite_size))
         else:
             self.fill(colors["white"])
 
     def draw_object(self, _object):
         self.blit(_object.sprite[0], ((_object.position[0] - self.min_x) * self.game_engine.sprite_size,
-                                        (_object.position[1] - self.min_y) * self.game_engine.sprite_size))
+                                      (_object.position[1] - self.min_y) * self.game_engine.sprite_size))
 
     def draw(self, canvas):
         self.update_minxy()
@@ -112,9 +112,10 @@ class ProgressBar(ScreenHandle):
         pygame.draw.rect(self, colors["black"], (50, 70, 200, 30), 2)
 
         pygame.draw.rect(self, colors[
-                         "red"], (50, 30, 200 * self.engine.hero.hp / self.engine.hero.max_hp, 30))
+            "red"], (50, 30, 200 * self.engine.hero.hp / self.engine.hero.max_hp, 30))
         pygame.draw.rect(self, colors["green"], (50, 70,
-                                                 200 * self.engine.hero.exp / (100 * (2**(self.engine.hero.level - 1))), 30))
+                                                 200 * self.engine.hero.exp / (
+                                                             100 * (2 ** (self.engine.hero.level - 1))), 30))
 
         font = pygame.font.SysFont("comicsansms", 20)
         self.blit(font.render(f'Hero at {self.engine.hero.position}', True, colors["black"]),
@@ -130,8 +131,9 @@ class ProgressBar(ScreenHandle):
 
         self.blit(font.render(f'{self.engine.hero.hp}/{self.engine.hero.max_hp}', True, colors["black"]),
                   (60, 30))
-        self.blit(font.render(f'{self.engine.hero.exp}/{(100*(2**(self.engine.hero.level-1)))}', True, colors["black"]),
-                  (60, 70))
+        self.blit(
+            font.render(f'{self.engine.hero.exp}/{(100 * (2 ** (self.engine.hero.level - 1)))}', True, colors["black"]),
+            (60, 70))
 
         self.blit(font.render(f'Level', True, colors["black"]),
                   (300, 30))
@@ -165,7 +167,7 @@ class InfoWindow(ScreenHandle):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.len = 25
+        self.len = 18
         clear = []
         self.data = collections.deque(clear, maxlen=self.len)
 
@@ -223,4 +225,29 @@ class HelpWindow(ScreenHandle):
                             (50, 50 + 30 * i))
                 canvas.blit(font2.render(text[1], True, (128, 128, 255)),
                             (150, 50 + 30 * i))
+        super().draw(canvas)
+
+
+class MiniMap(ScreenHandle):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fill(colors["wooden"])
+
+    def connect_engine(self, engine):
+        self.game_engine = engine
+        return super().connect_engine(engine)
+        self.fill(colors["wooden"])
+
+    def draw(self, canvas):
+        mini_size = (self.get_size()[0] / self.game_engine.sprite_size,
+                     self.get_size()[1] / self.game_engine.sprite_size)
+
+        if self.game_engine.map:
+            for i in range(len(self.game_engine.map[0])):
+                for j in range(len(self.game_engine.map)):
+                    self.blit(self.game_engine.map[j][i][0],
+                              (i * (mini_size[0]),
+                               j * (mini_size[1])))
+        else:
+            self.fill(colors["white"])
         super().draw(canvas)

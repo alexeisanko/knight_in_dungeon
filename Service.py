@@ -63,7 +63,7 @@ def remove_effect(engine, hero):
     elif "base" not in dir(hero):
         engine.notify("You haven't effect")
     else:
-        engine.notify("f'For remove effect you need still {cost - hero.gold} gold'")
+        engine.notify(f'For remove effect you need still {cost - hero.gold} gold')
 
 
 def add_gold(engine, hero):
@@ -73,7 +73,7 @@ def add_gold(engine, hero):
         engine.notify("You were cursed")
     else:
         engine.score += 0.1
-        gold = int(random.randint(10, 10 * hero.stats['luck']) * (1.1 ** (engine.hero.level - 1)))
+        gold = int(random.randint(10, 30 * hero.stats['luck']) * (1.1 ** (engine.hero.level - 1)))
         hero.gold += gold
         engine.notify(f"{gold} gold added")
 
